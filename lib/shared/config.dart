@@ -1,5 +1,5 @@
 class Config{
-  static const String SERVER = "http:// 10.19.27.26/myhomestay_raya";
+  static const String SERVER = "http://10.19.121.188/myhomestayraya_db";
 
-  static var server;
+  // static var server;
 }
