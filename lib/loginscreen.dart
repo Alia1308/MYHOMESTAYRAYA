@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhomestay_raya/mainscreen.dart';
 import 'package:myhomestay_raya/registrationscreen.dart';
-import 'package:myhomestay_raya/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'shared/config.dart';
-import 'models/user.dart';
+import '../../models/user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -128,19 +127,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ]),
                     ))),
-            
+            GestureDetector(
+              onTap: _goRegister,
+              child: const Text(
+                "No account? Create here",
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
             const SizedBox(
               height: 8,
             ),
             GestureDetector(
-              onTap: _registerUser,
-              child: const Text("Register here", style: TextStyle(fontSize: 18)),
-            ),
+              onTap: _goHome,
+              child: const Text("Go back Home", style: TextStyle(fontSize: 18)),
+            )
           ],
         ),
       ))),
     );
-    
   }
 
   void _loginUser() {
@@ -156,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     String _email = _emailEditingController.text;
     String _pass = _passEditingController.text;
-    http.post(Uri.parse("${Config.SERVER}/php/login_user.php"),
+    http.post(Uri.parse("${Config.SERVER}/php/user_login.php"),
         body: {"email": _email, "password": _pass}).then((response) {
       print(response.body);
       var jsonResponse = json.decode(response.body);
@@ -177,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _registerUser() {
+  void _goHome() {
     User user = User(
         id: "0",
         email: "unregistered",
@@ -187,13 +191,15 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (content) => RegistrationScreen(
+            builder: (content) => MainScreen(
                   user: user,
                 )));
   }
 
-  
-
+  void _goRegister() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (content) => const RegistrationScreen()));
+  }
 
   void saveremovepref(bool value) async {
     String email = _emailEditingController.text;
