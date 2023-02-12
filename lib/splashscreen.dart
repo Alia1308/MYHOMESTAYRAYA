@@ -1,49 +1,63 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myhomestay_raya/loginscreen.dart';
-import 'registrationscreen.dart';
+import 'package:myhomestay_raya/registrationscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myhomestay_raya/shared/config.dart';
+import '../../models/user.dart';
+import 'mainscreen.dart';
+import 'package:http/http.dart' as http;
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
-    Timer(
+     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (content) => const LoginScreen())));
   }
+   
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-        body: Center(
-      child: Column(
+    return Scaffold(
+      body: Stack(alignment: Alignment.center,children:[
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/home.jpg'),
+              fit: BoxFit.cover ))),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            Text("WELCOME TO HOMESTAY RAYA",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                )),
-            SizedBox(height: 30, width: 30, child: CircularProgressIndicator()),
-            Text("Version 2.0",
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            )),
-
-          ]),
-    ),
-    backgroundColor:Colors.white10);
+          children: [
+            Text("MYHOMESTAY RAYA",
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+             ),
+             SizedBox(
+              height: 40, width: 40, child: CircularProgressIndicator()),
+              Text(
+                "Calm and Fresh",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+             
+            ],
+          ),
+        ),
+      ]),
+    );
+    
   }
+
+  
+
 }
